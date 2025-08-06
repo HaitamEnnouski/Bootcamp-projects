@@ -6,4 +6,4 @@ var number = function(busStops){
     }
     return total;
 }
-console.log(number([[10,0],[3,5],[5,8]])); // Output: 5
+console.log(number([[10,0],[3,5],[5,8]])); 
