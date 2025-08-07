@@ -1,0 +1,46 @@
+[
+  {
+    "accountID": "ACC001",
+    "name": "Alice Johnson",
+    "pin": 1234,
+    "balance": 5000,
+    "transactions": [
+      {
+        "type": "deposit",
+        "amount": 1000,
+        "date": "2025-08-01T10:00:00Z"
+      },
+      {
+        "type": "withdrawal",
+        "amount": 500,
+        "date": "2025-08-03T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "accountID": "ACC002",
+    "name": "Bob Smith",
+    "pin": 5678,
+    "balance": 3000,
+    "transactions": [
+      {
+        "type": "deposit",
+        "amount": 2000,
+        "date": "2025-08-02T12:15:00Z"
+      }
+    ]
+  },
+  {
+    "accountID": "ACC003",
+    "name": "Charlie Brown",
+    "pin": 4321,
+    "balance": 1000,
+    "transactions": [
+      {
+        "type": "deposit",
+        "amount": 1000,
+        "date": "2025-08-07T11:12:42.187Z"
+      }
+    ]
+  }
+]
