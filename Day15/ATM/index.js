@@ -1,24 +1,25 @@
 const fs = require("fs");
 const readline = require("readline");
 const EventEmitter = require("events");
+const path = require("path");
 
-const USERS_FILE = "users.json";
+// Always point to the correct users.json in the same folder as index.js
+const USERS_FILE = path.join(__dirname, "users.json");
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
-// Setup event emitter
 const atm = new EventEmitter();
 
-// Read users
+// Read users from JSON
 function loadUsers() {
     const data = fs.existsSync(USERS_FILE) ? fs.readFileSync(USERS_FILE) : "[]";
     return JSON.parse(data);
 }
 
-// Write users
+// Save users to JSON
 function saveUsers(users) {
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 }
@@ -78,7 +79,7 @@ function loginUser() {
     });
 }
 
-// Show ATM options
+// ATM menu
 function atmMenu(user) {
     console.log("\n--- ATM Menu ---");
     console.log("1. Check Balance");
@@ -177,7 +178,7 @@ atm.on("viewTransactions", (user) => {
     atmMenu(user);
 });
 
-// Update single user record in JSON
+// Update one user in JSON
 function updateUser(updatedUser) {
     const users = loadUsers();
     const index = users.findIndex((u) => u.accountID === updatedUser.accountID);
@@ -185,7 +186,7 @@ function updateUser(updatedUser) {
     saveUsers(users);
 }
 
-// Menu
+// Start
 function main() {
     console.log("📟 ATM Management System");
     console.log("1. Add New User");

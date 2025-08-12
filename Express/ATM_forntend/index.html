@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 2rem;
+            width: 90%;
+            max-width: 450px;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .container:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .header p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .menu-option {
+            background: #6c757d;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            width: 100%;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .menu-option:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
+        .menu-option.secondary {
+            background: #495057;
+        }
+
+        .menu-option.secondary:hover {
+            background: #343a40;
+        }
+
+        .menu-option.danger {
+            background: #6c757d;
+        }
+
+        .menu-option.danger:hover {
+            background: #5a6268;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6c757d;
+            box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
+        }
+
+        .success-message {
+            background: #495057;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            text-align: center;
+            border-left: 4px solid #28a745;
+        }
+
+        .error-message {
+            background: #495057;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            text-align: center;
+            border-left: 4px solid #dc3545;
+        }
+
+        .info-box {
+            background: #6c757d;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .balance-display {
+            background: #495057;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .transaction-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            border-left: 4px solid #6c757d;
+            border: 1px solid #e9ecef;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .transaction-amount {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .back-button {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .back-button:hover {
+            background: #dee2e6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen.active {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📟 ATM System</h1>
+            <p>Secure Banking Made Simple</p>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div class="screen active" id="mainMenu">
+            <button class="menu-option" onclick="showScreen('addUser')">
+                👤 Add New User
+            </button>
+            <button class="menu-option secondary" onclick="showScreen('login')">
+                🔐 Login
+            </button>
+        </div>
+
+        <!-- Add User Screen -->
+        <div class="screen" id="addUser">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Create New Account</h2>
+            <div class="form-group">
+                <label for="userName">Full Name</label>
+                <input type="text" id="userName" placeholder="Enter your full name">
+            </div>
+            <button class="menu-option" onclick="createUser()">
+                ✅ Create Account
+            </button>
+            <button class="menu-option back-button" onclick="showScreen('mainMenu')">
+                ← Back to Main Menu
+            </button>
+            <div id="userCreationResult"></div>
+        </div>
+
+        <!-- Login Screen -->
+        <div class="screen" id="login">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Login to Your Account</h2>
+            <div class="form-group">
+                <label for="accountId">Account ID</label>
+                <input type="text" id="accountId" placeholder="Enter your Account ID">
+            </div>
+            <div class="form-group">
+                <label for="pin">4-Digit PIN</label>
+                <input type="password" id="pin" placeholder="Enter your PIN" maxlength="4">
+            </div>
+            <button class="menu-option" onclick="loginUser()">
+                🔐 Login
+            </button>
+            <button class="menu-option back-button" onclick="showScreen('mainMenu')">
+                ← Back to Main Menu
+            </button>
+            <div id="loginResult"></div>
+        </div>
+
+        <!-- ATM Menu Screen -->
+        <div class="screen" id="atmMenu">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Welcome, <span id="userName"></span>!</h2>
+            <button class="menu-option" onclick="checkBalance()">
+                💰 Check Balance
+            </button>
+            <button class="menu-option" onclick="showScreen('deposit')">
+                💵 Deposit Money
+            </button>
+            <button class="menu-option" onclick="showScreen('withdraw')">
+                🏧 Withdraw Money
+            </button>
+            <button class="menu-option secondary" onclick="showTransactions()">
+                📄 View Transactions
+            </button>
+            <button class="menu-option danger" onclick="logout()">
+                👋 Logout
+            </button>
+        </div>
+
+        <!-- Balance Screen -->
+        <div class="screen" id="balance">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Account Balance</h2>
+            <div class="balance-display" id="balanceAmount"></div>
+            <button class="menu-option back-button" onclick="showScreen('atmMenu')">
+                ← Back to Menu
+            </button>
+        </div>
+
+        <!-- Deposit Screen -->
+        <div class="screen" id="deposit">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Deposit Money</h2>
+            <div class="form-group">
+                <label for="depositAmount">Amount to Deposit</label>
+                <input type="number" id="depositAmount" placeholder="0.00" min="0" step="0.01">
+            </div>
+            <button class="menu-option" onclick="depositMoney()">
+                💵 Deposit
+            </button>
+            <button class="menu-option back-button" onclick="showScreen('atmMenu')">
+                ← Back to Menu
+            </button>
+            <div id="depositResult"></div>
+        </div>
+
+        <!-- Withdraw Screen -->
+        <div class="screen" id="withdraw">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Withdraw Money</h2>
+            <div class="form-group">
+                <label for="withdrawAmount">Amount to Withdraw</label>
+                <input type="number" id="withdrawAmount" placeholder="0.00" min="0" step="0.01">
+            </div>
+            <button class="menu-option" onclick="withdrawMoney()">
+                🏧 Withdraw
+            </button>
+            <button class="menu-option back-button" onclick="showScreen('atmMenu')">
+                ← Back to Menu
+            </button>
+            <div id="withdrawResult"></div>
+        </div>
+
+        <!-- Transactions Screen -->
+        <div class="screen" id="transactions">
+            <h2 style="margin-bottom: 1rem; color: #495057;">Transaction History</h2>
+            <div id="transactionsList"></div>
+            <button class="menu-option back-button" onclick="showScreen('atmMenu')">
+                ← Back to Menu
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        // Storage functions (replacing file operations)
+        function loadUsers() {
+            const data = sessionStorage.getItem('atmUsers');
+            if (data) {
+                return JSON.parse(data);
+            } else {
+                // Initialize with existing user data
+                const initialUsers = [
+                    {
+                        "accountID": "ACC001",
+                        "name": "Alice Johnson",
+                        "pin": "1234",
+                        "balance": 5000,
+                        "transactions": [
+                            {
+                                "type": "deposit",
+                                "amount": 1000,
+                                "date": "2025-08-01T10:00:00Z"
+                            },
+                            {
+                                "type": "withdrawal",
+                                "amount": 500,
+                                "date": "2025-08-03T14:30:00Z"
+                            }
+                        ]
+                    },
+                    {
+                        "accountID": "ACC002",
+                        "name": "Bob Smith",
+                        "pin": "5678",
+                        "balance": 3000,
+                        "transactions": [
+                            {
+                                "type": "deposit",
+                                "amount": 2000,
+                                "date": "2025-08-02T12:15:00Z"
+                            }
+                        ]
+                    },
+                    {
+                        "accountID": "ACC003",
+                        "name": "Charlie Brown",
+                        "pin": "4321",
+                        "balance": 1000,
+                        "transactions": [
+                            {
+                                "type": "deposit",
+                                "amount": 1000,
+                                "date": "2025-08-07T11:12:42.187Z"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "haitam",
+                        "accountID": "ACC517178",
+                        "pin": "3148",
+                        "balance": 22,
+                        "transactions": [
+                            {
+                                "type": "Deposit",
+                                "amount": 122,
+                                "date": "2025-08-11T08:15:22.970Z"
+                            },
+                            {
+                                "type": "Withdraw",
+                                "amount": 100,
+                                "date": "2025-08-11T08:15:30.709Z"
+                            }
+                        ]
+                    }
+                ];
+                saveUsers(initialUsers);
+                return initialUsers;
+            }
+        }
+
+        function saveUsers(users) {
+            sessionStorage.setItem('atmUsers', JSON.stringify(users));
+        }
+
+        // Utility functions
+        function generatePIN() {
+            return Math.floor(1000 + Math.random() * 9000).toString();
+        }
+
+        function generateAccountID(users) {
+            let id;
+            do {
+                id = "ACC" + Math.floor(100000 + Math.random() * 900000);
+            } while (users.some(u => u.accountID === id));
+            return id;
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showMessage(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const className = type === 'success' ? 'success-message' : 
+                             type === 'error' ? 'error-message' : 'info-box';
+            element.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            // Clear message after 5 seconds
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
+        }
+
+        function createUser() {
+            const name = document.getElementById('userName').value.trim();
+            if (!name) {
+                showMessage('userCreationResult', '❌ Please enter your name.', 'error');
+                return;
+            }
+
+            const users = loadUsers();
+            const accountID = generateAccountID(users);
+            const pin = generatePIN();
+
+            const newUser = {
+                name,
+                accountID,
+                pin,
+                balance: 0,
+                transactions: []
+            };
+
+            users.push(newUser);
+            saveUsers(users);
+
+            showMessage('userCreationResult', `
+                ✅ Account created successfully!<br>
+                <strong>Account ID:</strong> ${accountID}<br>
+                <strong>PIN:</strong> ${pin}<br>
+                <em>Please save these details securely.</em>
+            `, 'success');
+
+            document.getElementById('userName').value = '';
+        }
+
+        function loginUser() {
+            const accountID = document.getElementById('accountId').value.trim();
+            const pin = document.getElementById('pin').value.trim();
+
+            if (!accountID || !pin) {
+                showMessage('loginResult', '❌ Please enter both Account ID and PIN.', 'error');
+                return;
+            }
+
+            const users = loadUsers();
+            const user = users.find(u => u.accountID === accountID && u.pin === pin);
+
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').textContent = user.name;
+                showScreen('atmMenu');
+                document.getElementById('accountId').value = '';
+                document.getElementById('pin').value = '';
+            } else {
+                showMessage('loginResult', '❌ Invalid credentials. Please try again.', 'error');
+            }
+        }
+
+        function checkBalance() {
+            document.getElementById('balanceAmount').textContent = `$${currentUser.balance.toFixed(2)}`;
+            showScreen('balance');
+        }
+
+        function depositMoney() {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            if (isNaN(amount) || amount <= 0) {
+                showMessage('depositResult', '❌ Please enter a valid amount.', 'error');
+                return;
+            }
+
+            currentUser.balance += amount;
+            currentUser.transactions.push({
+                type: 'Deposit',
+                amount: amount,
+                date: new Date().toISOString()
+            });
+
+            updateUser();
+            showMessage('depositResult', `✅ Successfully deposited $${amount.toFixed(2)}`, 'success');
+            document.getElementById('depositAmount').value = '';
+        }
+
+        function withdrawMoney() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            
+            if (isNaN(amount) || amount <= 0) {
+                showMessage('withdrawResult', '❌ Please enter a valid amount.', 'error');
+                return;
+            }
+
+            if (amount > currentUser.balance) {
+                showMessage('withdrawResult', '❌ Insufficient funds.', 'error');
+                return;
+            }
+
+            currentUser.balance -= amount;
+            currentUser.transactions.push({
+                type: 'Withdraw',
+                amount: amount,
+                date: new Date().toISOString()
+            });
+
+            updateUser();
+            showMessage('withdrawResult', `✅ Successfully withdrew $${amount.toFixed(2)}`, 'success');
+            document.getElementById('withdrawAmount').value = '';
+        }
+
+        function showTransactions() {
+            const transactionsList = document.getElementById('transactionsList');
+            
+            if (currentUser.transactions.length === 0) {
+                transactionsList.innerHTML = '<div class="info-box">📭 No transactions yet.</div>';
+            } else {
+                let html = '';
+                currentUser.transactions.forEach((transaction, index) => {
+                    const date = new Date(transaction.date).toLocaleString();
+                    html += `
+                        <div class="transaction-item">
+                            <div class="transaction-type">${transaction.type}</div>
+                            <div class="transaction-amount">$${transaction.amount.toFixed(2)}</div>
+                            <div class="transaction-date">${date}</div>
+                        </div>
+                    `;
+                });
+                transactionsList.innerHTML = html;
+            }
+            
+            showScreen('transactions');
+        }
+
+        function updateUser() {
+            const users = loadUsers();
+            const index = users.findIndex(u => u.accountID === currentUser.accountID);
+            users[index] = currentUser;
+            saveUsers(users);
+        }
+
+        function logout() {
+            currentUser = null;
+            showScreen('mainMenu');
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle Enter key for forms
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const activeScreen = document.querySelector('.screen.active');
+                    const button = activeScreen.querySelector('.menu-option:not(.back-button)');
+                    if (button) button.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
