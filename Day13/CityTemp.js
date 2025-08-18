@@ -12,8 +12,8 @@ const cities = [
 ];
 
 function selectRandomCity(cities) {
-    const rndmcity = cities[Math.floor(Math.random() * cities.length)];
-    const response = fetch(`https://wttr.in/${rndmcity}?format=j1`);
+    const rndmcity = cities[Math.floor(Math.random() * cities.length)]; // Select a random city
+    const response = fetch(`https://wttr.in/${rndmcity.name}?format=j1`);
     return response.then(res => res.json())
     .then(data => {
             const cityTemp = data.current_condition[0].temp_C;
