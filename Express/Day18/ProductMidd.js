@@ -4,6 +4,8 @@ const port = 3000;
 
 app.use(express.json());
 
+
+// login middleware in all code
 function logger(req, res, next) {
     const now = new Date();
     console.log(`[${now.toISOString()}] ${req.method} ${req.url}`);
@@ -20,8 +22,8 @@ let products = [
 ];
 
 function auth(req, res, next) {
-    const token = req.headers['authorization'];
-    if (token === 'secret123') {
+    const token = req.headers['authorization'];  // Example token check
+    if (token === 'secret123') { 
         next();
     } else {
         const err = new Error("Forbidden - Invalid token");
@@ -50,6 +52,7 @@ app.get('/products/search', (req, res) => {
 
     res.json(filteredProducts);
 });
+
 app.get('/products', (req, res) => {
     res.json(products);
 });
