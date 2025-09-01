@@ -1,0 +1,47 @@
+{
+  "name": "nodejs-bootcamp",
+  "version": "1.0.0",
+  "description": "Node.js Bootcamp Projects - Consolidated Dependencies",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo 'Use: node dayX/filename.js to run specific projects'",
+    "day1": "node Day1/day1.js",
+    "day3": "node Day3/day3.js",
+    "day4": "node Day4/day4.js",
+    "day5": "node Day5/day5.js",
+    "day6": "node Day6/file-processor/index.js",
+    "day11": "node 'Day11/Employee Data Processor/EmployeeProcessor.js'",
+    "day12": "node Day12/ContactList.js",
+    "day15": "node Day15/index.js",
+    "express": "node Express/index.js"
+  },
+  "keywords": ["nodejs", "bootcamp", "javascript", "express"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
+    "dotenv": "^17.2.1",
+    "express-rate-limit": "^8.0.1",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.18.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "passport-github2": "^0.1.12",
+    "bcrypt": "^5.1.1",
+    "escape-html": "^1.0.3",
+    "xss-clean": "^0.1.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
