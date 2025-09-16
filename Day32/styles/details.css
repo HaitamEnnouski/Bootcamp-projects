@@ -1,0 +1,131 @@
+/* Movie details page specific styles */
+
+main > section:first-child {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+main > section:first-child h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, #00d4ff, #ff4757);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+main > section:first-child img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+main > section:first-child p {
+  font-size: 1.1rem;
+  margin: 1rem 0;
+  color: #cccccc;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+main > section:first-child button {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+main > section:first-child button:first-of-type {
+  background-color: #00d4ff;
+  color: #0f0f23;
+}
+main > section:first-child button:last-of-type {
+  background-color: #ff4757;
+  color: #fff;
+}
+main > section:first-child button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Cast & Crew */
+main > section:nth-child(2) {
+  background-color: #1a1a2e;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+main > section:nth-child(2) h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #00d4ff;
+}
+main > section:nth-child(2) ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+main > section:nth-child(2) li {
+  padding: 1rem;
+  background-color: #0f0f23;
+  border-radius: 8px;
+  border-left: 4px solid #00d4ff;
+}
+main > section:nth-child(2) strong {
+  color: #00d4ff;
+}
+
+/* Related */
+main > section:last-child {
+  margin-bottom: 3rem;
+}
+main > section:last-child h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+main > section:last-child article {
+  display: inline-block;
+  width: 280px;
+  margin: 1rem;
+  background-color: #1a1a2e;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  vertical-align: top;
+}
+main > section:last-child article:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+main > section:last-child article img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+main > section:last-child article h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+main > section:last-child article p {
+  color: #cccccc;
+  margin-bottom: 1rem;
+}
+main > section:last-child article a {
+  display: inline-block;
+  background-color: #00d4ff;
+  color: #0f0f23;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+}
+main > section:last-child article a:hover {
+  background-color: #00b8e6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
